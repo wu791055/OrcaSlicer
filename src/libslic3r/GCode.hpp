@@ -162,6 +162,8 @@ private:
     std::string append_tcr(GCode &gcodegen, const WipeTower::ToolChangeResult &tcr, int new_extruder_id, double z = -1.) const;
     Polyline generate_path_to_wipe_tower(const Point &start_pos, const Point &end_pos, const BoundingBox &avoid_polygon, const Polygons &bed_polygons) const;
     std::string append_tcr2(GCode &gcodegen, const WipeTower::ToolChangeResult &tcr, int new_extruder_id, double z = -1.) const;
+    // Declares a folded tower layer's height to the G-code parser; see the definition in GCode.cpp.
+    std::string tower_height_tag(GCode &gcodegen, const WipeTower::ToolChangeResult &tcr, const std::string &tcr_gcode) const;
     std::string travel_to_tower_gap(GCode &gcodegen, const Point &route_start, const Point &start_wipe_pos) const;
     Vec2f transform_wt2_pt(const Vec2f &pt) const;
     // The current tower layer's z in the G-code frame, where a joined layer prints its purges.

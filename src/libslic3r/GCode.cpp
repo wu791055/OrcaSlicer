@@ -94,6 +94,7 @@
 #include <regex>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/find.hpp>
+#include <boost/format.hpp>
 #include <boost/foreach.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/log/trivial.hpp>
@@ -1080,7 +1081,7 @@ static std::vector<Vec2d> get_path_of_change_filament(const Print& print)
                                                        const std::string &tcr_gcode) const
     {
         const std::string tag = ";" + GCodeProcessor::reserved_tag(GCodeProcessor::ETags::Height);
-        if (! m_sparse_layers_combined || std::abs(gcodegen.m_last_height - tcr.layer_height) <= EPSILON ||
+        if (! m_sparse_layers_skipped || std::abs(gcodegen.m_last_height - tcr.layer_height) <= EPSILON ||
             tcr_gcode.find(tag) != std::string::npos)
             return {};
         // Keep m_last_height what the G-code last declared, so a second visit does not repeat it.
