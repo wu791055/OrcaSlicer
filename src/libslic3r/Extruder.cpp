@@ -97,8 +97,11 @@ double Extruder::retract(double length, double restart_extra)
         if (m_config->use_relative_e_distances)
             m_share_E[extruder_id()] = 0.;
         double to_retract = std::max(0., length - m_share_retracted[extruder_id()]);
-        m_restart_extra = restart_extra;
+        // Fix: only overwrite restart_extra when an actual retraction happens.
+        // Unconditional overwrite wiped the toolchange restart_extra saved by
+        // retract_for_toolchange() when a later standard retract() was a no-op.
         if (to_retract > 0.) {
+            m_restart_extra = restart_extra;
             m_share_E[extruder_id()]             -= to_retract;
             m_absolute_E          -= to_retract;
             m_share_retracted[extruder_id()]     += to_retract;
@@ -109,8 +112,11 @@ double Extruder::retract(double length, double restart_extra)
         if (m_config->use_relative_e_distances)
             m_E = 0.;
         double to_retract = std::max(0., length - m_retracted);
-        m_restart_extra = restart_extra;
+        // Fix: only overwrite restart_extra when an actual retraction happens.
+        // Unconditional overwrite wiped the toolchange restart_extra saved by
+        // retract_for_toolchange() when a later standard retract() was a no-op.
         if (to_retract > 0.) {
+            m_restart_extra = restart_extra;
             m_E             -= to_retract;
             m_absolute_E    -= to_retract;
             m_retracted     += to_retract;
